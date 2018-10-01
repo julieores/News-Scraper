@@ -37,7 +37,7 @@ var PORT = 3000;
 var app = express();
 
 // Require routes
-var routes = require("./routes");
+// var routes = require("./routes");
 
 // Configure middleware
 var bodyParser = require("body-parser")
