@@ -36,11 +36,14 @@ var PORT = 3000;
 // Initialize Express
 var app = express();
 
+// Require routes
+var routes = require("./routes");
+
 // Configure middleware
 var bodyParser = require("body-parser")
 
 // Use morgan logger for logging requests ??????
-app.use(request("dev"));
+// app.use(request("dev"));
 // Use body-parser for handling form submissions
 app.use(bodyParser.urlencoded({
     extended: true
@@ -56,7 +59,7 @@ mongoose.connect("mongodb://localhost/News-Scraper");
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with request
-    request.get("http://www.echojs.com/").then(function (response) {
+    request.get("https://www.reuters.com/").then(function (response) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
 
@@ -66,15 +69,15 @@ app.get("/scrape", function (req, res) {
             var result = {};
 
             // Add the text and href of every link, and save them as properties of the result object
-            result.headline = $(this)
+            result.title = $(this)
                 .children("a")
                 .text();
+            result.link = $(this)
+                .children("a")
+                .attr("href");
             result.summary = $(this)
                 .children("a")
                 .text();
-            result.url = $(this)
-                .children("a")
-                .attr("href");
 
             // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
