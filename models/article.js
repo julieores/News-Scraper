@@ -6,14 +6,20 @@ var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
 
-    title: {
+    headline: {
         type: String,
         required: true
     },
 
-    link: {
+    url: {
         type: String,
         required: true
+    },
+
+    summary: {
+        type: String,
+        required: true
+
     },
 
     note: {
