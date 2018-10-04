@@ -19,28 +19,22 @@ var PORT = process.env.PORT || 3000;
 // Routes
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scrape";
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
-// Require all models
-var db = require("./models");
-
-
-var PORT = 3000;
-
-// Initialize Express
-var app = express();
 
 // Require routes
 // var routes = require("./routes");
 
 // Configure middleware
-var bodyParser = require("body-parser")
+
 
 // Use morgan logger for logging requests ??????
 // app.use(request("dev"));
@@ -52,14 +46,19 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/News-Scraper");
+
 
 // Routes
+app.get('/', function(req, res) {
+    console.log('We got to the root');
+    res.render('index');
+});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
+    console.log("we arrived at scrape");
     // First, we grab the body of the html with request
-    request.get("https://www.reuters.com/").then(function (response) {
+    request.get("http://www.reuters.com/").then(function (response) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
 
@@ -98,11 +97,12 @@ app.get("/scrape", function (req, res) {
 
 // Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
+    console.log("In get articles ------------------------------- ");
     // Grab every document in the Articles collection
     db.Article.find({})
         .then(function (dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
-            res.json(dbArticle);
+            res.render('index', dbArticle);
         })
         .catch(function (err) {
             // If an error occurred, send it to the client
@@ -156,5 +156,5 @@ app.post("/articles/:id", function (req, res) {
 
 // Start the server
 app.listen(PORT, function () {
-    console.log("App running on port " + PORT + "!");
+    console.log("App running on port " + PORT + "!!");
 });

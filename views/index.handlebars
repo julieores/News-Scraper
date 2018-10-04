@@ -1,4 +1,4 @@
-<main>
+    <button id="scrape"> Scrape </button>
     <div class="row">
         <div class="col-xs-12">
             <div class="news">
@@ -23,8 +23,11 @@
 
                             <div class="col-md-3">
                                 {{#if image}}
-                                <a href="{{link}}"><img src="{{image}}" class="center-block 
-                                article-image></a>
+                                <a href="{{link}}">
+                                    <img src="{{image}}" class="center-block 
+                                    article-image">
+                                </a>
+                                {{/if}}
                             </div>
 
 
@@ -35,12 +38,7 @@
                     </div>
 
                 </div>
+                {{/each}}
             </div>
         </div>
-
-
     </div>
-
-
-
-</main>
