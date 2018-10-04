@@ -58,7 +58,7 @@ app.get('/', function(req, res) {
 app.get("/scrape", function (req, res) {
     console.log("we arrived at scrape");
     // First, we grab the body of the html with request
-    request.get("http://www.reuters.com/").then(function (response) {
+    request("http://www.reuters.com/", function(error, response, html) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
 
