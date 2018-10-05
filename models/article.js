@@ -6,17 +6,17 @@ var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
 
-    headline: {
+    storyContent: {
         type: String,
         required: true
     },
 
-    url: {
+    storyLink: {
         type: String,
         required: true
     },
 
-    summary: {
+    $0: {
         type: String,
         required: true
 
