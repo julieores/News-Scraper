@@ -71,9 +71,9 @@ $(document).on("click", "#savenote", function () {
 
 
 $(document).on('click', "#scrape", function(){
-    $.get('/scrape', function(data){
+    $.use('/scrape', function(data){
         console.log("scrape complete");
-        $.get('/articles', function(data){
+        $.use('/articles', function(data){
             console.log('articles');
         });
     });

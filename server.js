@@ -5,7 +5,7 @@ var exphbs = require("express-handlebars");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cheerio = require("cheerio");
-var request = require("request")
+var request = require("request");
 
 
 
@@ -49,13 +49,13 @@ app.use(express.static("public"));
 
 
 // Routes
-app.get("/", function(req, res) {
+app.use("./", function(req, res) {
     console.log('We got to the root');
     res.render('index');
 });
 
 // A GET route for scraping the echoJS website
-app.get("/scrape", function (req, res) {
+app.use("/scrape", function (req, res) {
     console.log("we arrived at scrape");
     // First, we grab the body of the html with request
     request("http://www.reuters.com/", function(error, response, html) {
@@ -96,7 +96,7 @@ app.get("/scrape", function (req, res) {
 });
 
 // Route for getting all Articles from the db
-app.get("/articles", function (req, res) {
+app.use("/articles", function (req, res) {
     console.log("In get articles ------------------------------- ");
     // Grab every document in the Articles collection
     db.Article.find({})
@@ -111,7 +111,7 @@ app.get("/articles", function (req, res) {
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.get("/article/:id", function (req, res) {
+app.use("/article/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article.findOne({
             _id: req.params.id
@@ -129,7 +129,7 @@ app.get("/article/:id", function (req, res) {
 });
 
 // Route for saving/updating an Article's associated Note
-app.post("/article/:id", function (req, res) {
+app.use("/article/:id", function (req, res) {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
         .then(function (dbNote) {
