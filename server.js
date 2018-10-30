@@ -26,8 +26,8 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scrape";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.set("view engine", "handlebars");
 
 
 // Require routes
@@ -49,7 +49,7 @@ app.use(express.static("public"));
 
 
 // Routes
-app.get('/', function(req, res) {
+app.get("/", function(req, res) {
     console.log('We got to the root');
     res.render('index');
 });
@@ -102,7 +102,7 @@ app.get("/articles", function (req, res) {
     db.Article.find({})
         .then(function (dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
-            res.render('index', dbArticle);
+            res.render("index", dbArticle);
         })
         .catch(function (err) {
             // If an error occurred, send it to the client
@@ -111,7 +111,7 @@ app.get("/articles", function (req, res) {
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.get("/articles/:id", function (req, res) {
+app.get("/article/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article.findOne({
             _id: req.params.id
@@ -129,7 +129,7 @@ app.get("/articles/:id", function (req, res) {
 });
 
 // Route for saving/updating an Article's associated Note
-app.post("/articles/:id", function (req, res) {
+app.post("/article/:id", function (req, res) {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
         .then(function (dbNote) {
